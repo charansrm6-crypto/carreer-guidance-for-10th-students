@@ -8,7 +8,34 @@ python manage.py runserver
 ```
 
 ## Production notes
+
 For a live deployment, use a production web server such as Gunicorn behind Nginx or a managed platform.
+
+## Render
+
+For the CareerPath Render web service, set these environment variables in the Render dashboard:
+
+- `DEBUG=False`
+- `DJANGO_SECRET_KEY` to a new, unique secret value (do not commit it)
+- `ALLOWED_HOSTS=career-guidance-for-10th-students.onrender.com` (add any custom domains as comma-separated hostnames)
+- `CSRF_TRUSTED_ORIGINS=https://career-guidance-for-10th-students.onrender.com` (add any custom HTTPS origins as comma-separated origins)
+- `SECURE_SSL_REDIRECT=True`
+
+The settings retain local development hosts and include the Render hostname by default; environment values add any extra hosts or trusted origins. The proxy SSL header and secure session/CSRF cookies are enabled for production when `DEBUG=False`.
+
+Use this Render build command:
+
+```text
+pip install -r requirements.txt && python manage.py collectstatic --noinput
+```
+
+Use this start command:
+
+```text
+gunicorn careerpath.wsgi:application
+```
+
+Keep the existing production database configuration and credentials. Render's free service filesystem is ephemeral, so SQLite is not suitable for durable user data. Check the existing database and migration state before applying migrations; do not run migrations against a replacement or unverified database.
 
 ## Recommended steps
 1. Set `DEBUG=False` and provide a strong, unique `DJANGO_SECRET_KEY` through the deployment environment.

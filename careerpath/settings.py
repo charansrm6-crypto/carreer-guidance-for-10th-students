@@ -26,13 +26,26 @@ if not SECRET_KEY:
         "DJANGO_SECRET_KEY must be set when DEBUG is disabled."
     )
 
+DEFAULT_ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "[::1]",
+    "testserver",
+    "career-guidance-for-10th-students.onrender.com",
+]
 ALLOWED_HOSTS = [
     host.strip()
-    for host in os.getenv(
-        "ALLOWED_HOSTS",
-        "localhost,127.0.0.1,[::1],testserver"
-    ).split(",")
+    for host in DEFAULT_ALLOWED_HOSTS + os.getenv("ALLOWED_HOSTS", "").split(",")
     if host.strip()
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in [
+        "https://career-guidance-for-10th-students.onrender.com",
+        *os.getenv("CSRF_TRUSTED_ORIGINS", "").split(","),
+    ]
+    if origin.strip()
 ]
 
 # Installed applications
