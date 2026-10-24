@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Login | CareerPath{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Student Login</h1>
+    </div>
+</section>
+
+<div class="container">
+    <div class="form-card">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-field">
+                <label for="id_email">Email</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+            <div class="form-field">
+                <label for="id_password">Password</label>
+                {{ form.password }}
+                {{ form.password.errors }}
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <div class="form-link">
+                New student? <a href="{% url 'register' %}">Create an account</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Career Options | CareerPath{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Career Options</h1>
+        <form method="get" class="search-bar">
+            <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Search careers, skills, or professions">
+            <select name="career" aria-label="Filter by career">
+                <option value="">All careers</option>
+                {% for career_name in career_names %}
+                <option value="{{ career_name }}"{% if career_name == selected_career %} selected{% endif %}>{{ career_name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+    </div>
+</section>
+
+<div class="container section">
+    <div class="grid-3">
+        {% for career in careers %}
+        <div class="card">
+            <h3>{{ career.name }}</h3>
+            <p>{{ career.description|truncatewords:22 }}</p>
+            <p style="margin-top: 16px;"><a href="{% url 'career_detail' career.slug %}" class="btn btn-primary">View Details</a></p>
+        </div>
+        {% empty %}
+        <p>No careers match your search.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

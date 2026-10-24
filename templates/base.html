@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CareerPath{% endblock %}</title>
+    <meta name="description" content="CareerPath helps students explore after-10th study options, careers, scholarships, and entrance exams.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container navbar">
+            <a href="{% url 'home' %}" class="brand">CareerPath</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+            <nav class="nav-links">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'roadmap_list' %}">After 10th Roadmap</a>
+                <a href="{% url 'career_list' %}">Career Options</a>
+                <a href="{% url 'course_list' %}">Courses</a>
+                <a href="{% url 'scholarship_list' %}">Scholarships</a>
+                <a href="{% url 'exam_list' %}">Entrance Exams</a>
+                <a href="{% url 'ece_guidance' %}">ECE Guidance</a>
+                <a href="{% url 'team' %}">Team</a>
+                <a href="{% url 'about' %}">About</a>
+                <a href="{% url 'contact' %}">Contact</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                    <form method="post" action="{% url 'logout' %}" class="nav-logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline">Login</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary">Register</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    {% if messages %}
+        <div class="container message-stack">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <h3>CareerPath</h3>
+                <p>Helping students discover the right education and career path after 10th class.</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="{% url 'roadmap_list' %}">Roadmap</a></li>
+                    <li><a href="{% url 'career_list' %}">Career Options</a></li>
+                    <li><a href="{% url 'course_list' %}">Courses</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Connect</h4>
+                <a class="whatsapp-link" href="https://chat.whatsapp.com/Ht8ujRkGJ8g8zJNVlzOu20" target="_blank" rel="noopener noreferrer">JOIN OUR CAREERPATH WHATSAPP GROUP</a>
+            </div>
+        </div>
+        <div class="footer-bottom">© {% now "Y" %} CareerPath. All rights reserved.</div>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

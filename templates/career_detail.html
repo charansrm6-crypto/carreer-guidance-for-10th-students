@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ career.name }} | CareerPath{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{{ career.name }}</h1>
+    </div>
+</section>
+
+<div class="container detail-layout">
+    <div class="detail-box">
+        <h2>Career Overview</h2>
+        <p>{{ career.description }}</p>
+        <p>Education, licensing, recruitment, and employment requirements vary. Verify the current criteria with the relevant institution, regulator, or employer.</p>
+        <ul class="meta-list">
+            <li><strong>Eligibility:</strong> {{ career.eligibility }}</li>
+            <li><strong>Education Required:</strong> {{ career.education_required }}</li>
+            <li><strong>Entrance Exams:</strong> {{ career.entrance_exams }}</li>
+            <li><strong>Skills:</strong> {{ career.skills }}</li>
+            <li><strong>Higher Studies:</strong> {{ career.higher_studies }}</li>
+            <li><strong>Jobs:</strong> {{ career.jobs }}</li>
+            <li><strong>Future Scope:</strong> {{ career.future_scope }}</li>
+        </ul>
+    </div>
+    <aside class="detail-box">
+        <h3>Explore more</h3>
+        <ul class="card-list">
+            <li><a href="{% url 'career_list' %}">All careers</a></li>
+            <li><a href="{% url 'course_list' %}">Courses</a></li>
+            <li><a href="{% url 'exam_list' %}">Entrance exams</a></li>
+        </ul>
+    </aside>
+</div>
+{% endblock %}

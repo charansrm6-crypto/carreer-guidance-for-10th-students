@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact | CareerPath{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Contact CareerPath</h1>
+    </div>
+</section>
+
+<div class="container">
+    <div class="form-card">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div class="form-field">
+                    <label for="id_name">Name</label>
+                    {{ form.name }}
+                    {{ form.name.errors }}
+                </div>
+                <div class="form-field">
+                    <label for="id_email">Email</label>
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+                <div class="form-field full">
+                    <label for="id_subject">Subject</label>
+                    {{ form.subject }}
+                    {{ form.subject.errors }}
+                </div>
+                <div class="form-field full">
+                    <label for="id_message">Message</label>
+                    {{ form.message }}
+                    {{ form.message.errors }}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top:18px;">Send Message</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

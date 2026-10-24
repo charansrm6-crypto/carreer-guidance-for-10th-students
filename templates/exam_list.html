@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Entrance Exams | CareerPath{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Entrance Exams</h1>
+        <form method="get" class="search-bar">
+            <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Search exams or purpose">
+            <select name="authority" aria-label="Filter by conducting authority">
+                <option value="">All authorities</option>
+                {% for authority in authorities %}
+                <option value="{{ authority }}"{% if authority == selected_authority %} selected{% endif %}>{{ authority }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+    </div>
+</section>
+
+<div class="container section">
+    <div class="grid-3">
+        {% for exam in exams %}
+        <div class="card">
+            <h3>{{ exam.name }}</h3>
+            <p>{{ exam.purpose|truncatewords:18 }}</p>
+            <p><strong>Authority:</strong> {{ exam.conducting_authority }}</p>
+            <p style="margin-top: 16px;"><a href="{% url 'exam_detail' exam.slug %}" class="btn btn-primary">View</a></p>
+        </div>
+        {% empty %}
+        <p>No exams match your search.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

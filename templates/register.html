@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Register | CareerPath{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Student Registration</h1>
+    </div>
+</section>
+
+<div class="container">
+    <div class="form-card">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div class="form-field full">
+                    <label for="id_full_name">Full Name</label>
+                    {{ form.full_name }}
+                    {{ form.full_name.errors }}
+                </div>
+                <div class="form-field">
+                    <label for="id_email">Email</label>
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+                <div class="form-field">
+                    <label for="id_class_name">Class</label>
+                    {{ form.class_name }}
+                    {{ form.class_name.errors }}
+                </div>
+                <div class="form-field">
+                    <label for="id_phone_number">Phone Number</label>
+                    {{ form.phone_number }}
+                    {{ form.phone_number.errors }}
+                </div>
+                <div class="form-field">
+                    <label for="id_password">Password</label>
+                    {{ form.password }}
+                    {{ form.password.errors }}
+                </div>
+                <div class="form-field">
+                    <label for="id_confirm_password">Confirm Password</label>
+                    {{ form.confirm_password }}
+                    {{ form.confirm_password.errors }}
+                </div>
+            </div>
+            <div style="margin-top: 22px;">
+                <button type="submit" class="btn btn-primary">Create Account</button>
+            </div>
+            <div class="form-link">
+                Already have an account? <a href="{% url 'login' %}">Login</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

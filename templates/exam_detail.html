@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ exam.name }} | CareerPath{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{{ exam.name }}</h1>
+    </div>
+</section>
+
+<div class="container detail-layout">
+    <div class="detail-box">
+        <ul class="meta-list">
+            <li><strong>Full Form:</strong> {{ exam.full_form }}</li>
+            <li><strong>Eligibility:</strong> {{ exam.eligibility }}</li>
+            <li><strong>Purpose:</strong> {{ exam.purpose }}</li>
+            <li><strong>Conducting Authority:</strong> {{ exam.conducting_authority }}</li>
+            <li><strong>Courses:</strong> {{ exam.courses }}</li>
+            <li><strong>Exam Pattern:</strong> {{ exam.exam_pattern }}</li>
+            <li><strong>Application Process:</strong> {{ exam.application_process }}</li>
+            <li><strong>Official Website:</strong> {% if exam.official_website %}<a href="{{ exam.official_website }}" target="_blank" rel="noopener noreferrer">Open</a>{% else %}Not provided{% endif %}</li>
+            <li><strong>Notes:</strong> {{ exam.notes|default:'General exam guidance and preparation information.' }}</li>
+        </ul>
+        <p>Exam eligibility, pattern, and application rules can change. Follow the current official examination notification for authoritative details and dates.</p>
+    </div>
+    <aside class="detail-box">
+        <h3>Explore</h3>
+        <ul class="card-list">
+            <li><a href="{% url 'exam_list' %}">All exams</a></li>
+            <li><a href="{% url 'course_list' %}">Courses</a></li>
+            <li><a href="{% url 'career_list' %}">Career options</a></li>
+        </ul>
+    </aside>
+</div>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block title %}CareerPath | Home{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-inner">
+        <div class="hero-copy">
+            <h1>Choose the right future after 10th class.</h1>
+            <p>CareerPath helps students explore after-10th study options, career opportunities, scholarships, and entrance exams with clear guidance and practical information.</p>
+            <div class="hero-actions">
+                <a href="{% url 'register' %}" class="btn btn-primary">Student Register</a>
+                <a href="{% url 'login' %}" class="btn btn-secondary">Student Login</a>
+            </div>
+            <div class="hero-badges">
+                <span class="badge">After 10th Guidance</span>
+                <span class="badge">Career Options</span>
+                <span class="badge">Courses</span>
+                <span class="badge">Scholarships</span>
+                <span class="badge">ECE Guidance</span>
+            </div>
+        </div>
+        <div class="hero-card">
+            <h3>CareerPath at a glance</h3>
+            <div class="stat-grid">
+                <div class="stat-box"><strong>{{ career_count }}</strong><span>Career paths</span></div>
+                <div class="stat-box"><strong>{{ course_count }}</strong><span>Courses</span></div>
+                <div class="stat-box"><strong>{{ scholarship_count }}</strong><span>Scholarship records</span></div>
+                <div class="stat-box"><strong>{{ exam_count }}</strong><span>Entrance exams</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Explore student guidance paths</h2>
+            <p>Find your interest, compare options, and plan a realistic future.</p>
+        </div>
+        <div class="grid-3">
+            <div class="card">
+                <h3>After 10th Roadmap</h3>
+                <p>Understand the major academic and vocational streams and choose the route that matches your interest.</p>
+                <ul class="card-list">
+                    <li>MPC / BiPC / MEC / CEC</li>
+                    <li>Diploma and ITI</li>
+                    <li>Vocational and Arts paths</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Career Options</h3>
+                <p>Explore engineering, medicine, law, design, banking, defence, agriculture, commerce, and more.</p>
+            </div>
+            <div class="card">
+                <h3>Courses & Exams</h3>
+                <p>Discover courses, higher education options, and entrance exams with student-friendly explanations.</p>
+            </div>
+            <div class="card">
+                <h3>ECE Career Guidance</h3>
+                <p>Explore ECE study routes, technical areas, skills, possible roles, and further-study options.</p>
+                <p style="margin-top: 14px;"><a href="{% url 'ece_guidance' %}" class="btn btn-secondary">Explore ECE</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background:#fff;">
+    <div class="container">
+        <div class="section-header">
+            <h2>Roadmaps to explore</h2>
+        </div>
+        <div class="grid-3">
+            {% for roadmap in roadmaps %}
+            <div class="card">
+                <h3>{{ roadmap.name }}</h3>
+                <p>{{ roadmap.description|truncatewords:22 }}</p>
+                <p style="margin-top: 14px;"><a href="{% url 'roadmap_detail' roadmap.slug %}" class="btn btn-secondary">View details</a></p>
+            </div>
+            {% empty %}
+            <p>No roadmaps available yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Popular career options</h2>
+        </div>
+        <div class="grid-4">
+            {% for career in careers %}
+            <div class="card">
+                <h4>{{ career.name }}</h4>
+                <p>{{ career.description|truncatewords:20 }}</p>
+            </div>
+            {% empty %}
+            <p>No careers available yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background:#fff;">
+    <div class="container">
+        <div class="section-header">
+            <h2>Featured scholarships</h2>
+        </div>
+        <div class="grid-3">
+            {% for scholarship in scholarships %}
+            <div class="card">
+                <h3>{{ scholarship.name }}</h3>
+                <p>{{ scholarship.eligibility|truncatewords:18 }}</p>
+                <p style="margin-top: 14px;"><a href="{% url 'scholarship_detail' scholarship.slug %}" class="btn btn-outline">Read more</a></p>
+            </div>
+            {% empty %}
+            <p>No scholarships available yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Entrance exams</h2>
+        </div>
+        <div class="grid-4">
+            {% for exam in exams %}
+            <div class="card">
+                <h4>{{ exam.name }}</h4>
+                <p>{{ exam.purpose|truncatewords:16 }}</p>
+            </div>
+            {% empty %}
+            <p>No entrance exams available yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

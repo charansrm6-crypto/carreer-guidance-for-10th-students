@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ course.name }} | CareerPath{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{{ course.name }}</h1>
+    </div>
+</section>
+
+<div class="container detail-layout">
+    <div class="detail-box">
+        {% if course.description %}
+        <h2>Course Overview</h2>
+        <p>{{ course.description }}</p>
+        {% endif %}
+        <ul class="meta-list">
+            <li><strong>Eligibility:</strong> {{ course.eligibility }}</li>
+            <li><strong>Duration:</strong> {{ course.duration }}</li>
+            <li><strong>Stream:</strong> {{ course.stream }}</li>
+            <li><strong>Entrance Exam:</strong> {{ course.entrance_exam }}</li>
+            <li><strong>Career Opportunities:</strong> {{ course.career_opportunities }}</li>
+            <li><strong>Higher Studies:</strong> {{ course.higher_studies }}</li>
+        </ul>
+    </div>
+    <aside class="detail-box">
+        <h3>Quick links</h3>
+        <ul class="card-list">
+            <li><a href="{% url 'course_list' %}">All courses</a></li>
+            <li><a href="{% url 'career_list' %}">Career options</a></li>
+            <li><a href="{% url 'exam_list' %}">Entrance exams</a></li>
+        </ul>
+    </aside>
+</div>
+{% endblock %}

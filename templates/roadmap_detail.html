@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ roadmap.name }} | CareerPath{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{{ roadmap.name }}</h1>
+    </div>
+</section>
+
+<div class="container detail-layout">
+    <div class="detail-box">
+        <h2>Overview</h2>
+        <p>{{ roadmap.description }}</p>
+        <p>Use this as general guidance. Confirm current subject eligibility, admission rules, and course recognition with the relevant official institution.</p>
+
+        <ul class="meta-list">
+            <li><strong>Eligibility:</strong> {{ roadmap.eligibility }}</li>
+            <li><strong>Duration:</strong> {{ roadmap.duration }}</li>
+            <li><strong>Subjects:</strong> {{ roadmap.subjects }}</li>
+            <li><strong>Courses:</strong> {{ roadmap.courses }}</li>
+            <li><strong>Entrance Exams:</strong> {{ roadmap.entrance_exams }}</li>
+            <li><strong>Higher Education:</strong> {{ roadmap.higher_education }}</li>
+            <li><strong>Career Opportunities:</strong> {{ roadmap.career_opportunities }}</li>
+            <li><strong>Government Opportunities:</strong> {{ roadmap.government_opportunities }}</li>
+            <li><strong>Private Opportunities:</strong> {{ roadmap.private_opportunities }}</li>
+            <li><strong>Skills:</strong> {{ roadmap.skills }}</li>
+            <li><strong>Future Scope:</strong> {{ roadmap.future_scope }}</li>
+        </ul>
+    </div>
+
+    <aside class="detail-box">
+        <h3>Quick menu</h3>
+        <ul class="card-list">
+            <li><a href="{% url 'roadmap_list' %}">All Roadmaps</a></li>
+            <li><a href="{% url 'career_list' %}">Career Options</a></li>
+            <li><a href="{% url 'course_list' %}">Courses</a></li>
+            <li><a href="{% url 'scholarship_list' %}">Scholarships</a></li>
+            <li><a href="{% url 'exam_list' %}">Entrance Exams</a></li>
+        </ul>
+    </aside>
+</div>
+{% endblock %}
