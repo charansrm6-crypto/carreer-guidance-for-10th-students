@@ -1,3 +1,4 @@
+
 import os
 from pathlib import Path
 
@@ -8,21 +9,33 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
-DEBUG = os.getenv("DEBUG", "False").lower() in {"1", "true", "yes", "on"}
+# Debug and security
+DEBUG = os.getenv("DEBUG", "False").lower() in {
+    "1", "true", "yes", "on"
+}
+
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 if SECRET_KEY and SECRET_KEY.startswith("replace-with-"):
     SECRET_KEY = None
+
 if not SECRET_KEY and DEBUG:
     SECRET_KEY = get_random_secret_key()
+
 if not SECRET_KEY:
-    raise ImproperlyConfigured("DJANGO_SECRET_KEY must be set when DEBUG is disabled.")
+    raise ImproperlyConfigured(
+        "DJANGO_SECRET_KEY must be set when DEBUG is disabled."
+    )
 
 ALLOWED_HOSTS = [
     host.strip()
-    for host in os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1,[::1],testserver").split(",")
+    for host in os.getenv(
+        "ALLOWED_HOSTS",
+        "localhost,127.0.0.1,[::1],testserver"
+    ).split(",")
     if host.strip()
 ]
 
+# Installed applications
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -33,8 +46,10 @@ INSTALLED_APPS = [
     "website",
 ]
 
+# Middleware
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -45,6 +60,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "careerpath.urls"
 
+# Templates
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -64,7 +80,9 @@ TEMPLATES = [
 WSGI_APPLICATION = "careerpath.wsgi.application"
 ASGI_APPLICATION = "careerpath.asgi.application"
 
+# Database: SQLite or MySQL
 DB_ENGINE = os.getenv("DB_ENGINE", "sqlite").lower()
+
 if DB_ENGINE == "mysql":
     DATABASES = {
         "default": {
@@ -85,37 +103,74 @@ elif DB_ENGINE == "sqlite":
         }
     }
 else:
-    raise ImproperlyConfigured("DB_ENGINE must be either 'sqlite' or 'mysql'.")
+    raise ImproperlyConfigured(
+        "DB_ENGINE must be either 'sqlite' or 'mysql'."
+    )
 
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", "OPTIONS": {"min_length": 8}},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    {
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "UserAttributeSimilarityValidator"
+        )
+    },
+    {
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "MinimumLengthValidator"
+        ),
+        "OPTIONS": {"min_length": 8},
+    },
+    {
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "CommonPasswordValidator"
+        )
+    },
+    {
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "NumericPasswordValidator"
+        )
+    },
 ]
 
+# Language and timezone
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
 USE_TZ = True
 
+# Static and media files
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+# Default primary key
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Custom user and authentication
 AUTH_USER_MODEL = "website.Student"
-AUTHENTICATION_BACKENDS = ["website.auth_backends.EmailAuthBackend", "django.contrib.auth.backends.ModelBackend"]
+AUTHENTICATION_BACKENDS = [
+    "website.auth_backends.EmailAuthBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "dashboard"
 LOGOUT_REDIRECT_URL = "home"
 
+# HTTPS and security behind Render's proxy
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_HTTPONLY = True
-SECURE_SSL_REDIRECT = os.getenv("SECURE_SSL_REDIRECT", str(not DEBUG)).lower() in {"1", "true", "yes", "on"}
+
+SECURE_SSL_REDIRECT = os.getenv(
+    "SECURE_SSL_REDIRECT", str(not DEBUG)
+).lower() in {"1", "true", "yes", "on"}
+
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
