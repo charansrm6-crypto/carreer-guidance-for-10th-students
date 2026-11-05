@@ -37,6 +37,7 @@ DEFAULT_ALLOWED_HOSTS = [
     "[::1]",
     "testserver",
     "carreer-guidance-for-10th-students.onrender.com",
+    "career-guidance-for-10th-students.onrender.com",
 ]
 configured_allowed_hosts = [
     host.strip()
@@ -60,14 +61,17 @@ ALLOWED_HOSTS = list(
     dict.fromkeys(DEFAULT_ALLOWED_HOSTS + configured_allowed_hosts)
 )
 
-CSRF_TRUSTED_ORIGINS = [
-    origin.strip()
-    for origin in [
-        "https://carreer-guidance-for-10th-students.onrender.com",
-        *os.getenv("CSRF_TRUSTED_ORIGINS", "").split(","),
-    ]
-    if origin.strip()
-]
+CSRF_TRUSTED_ORIGINS = list(
+    dict.fromkeys(
+        origin.strip()
+        for origin in [
+            "https://carreer-guidance-for-10th-students.onrender.com",
+            "https://career-guidance-for-10th-students.onrender.com",
+            *os.getenv("CSRF_TRUSTED_ORIGINS", "").split(","),
+        ]
+        if origin.strip()
+    )
+)
 
 # Installed applications
 INSTALLED_APPS = [
