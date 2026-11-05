@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
 # Debug and security
-DEBUG = os.getenv("DEBUG", "False").lower() in {
+DEBUG = os.getenv("DEBUG", "True").lower() in {
     "1", "true", "yes", "on"
 }
 
@@ -25,6 +25,11 @@ if not SECRET_KEY:
     raise ImproperlyConfigured(
         "DJANGO_SECRET_KEY must be set when DEBUG is disabled."
     )
+
+WHATSAPP_GROUP_URL = os.getenv(
+    "WHATSAPP_GROUP_URL",
+    "https://chat.whatsapp.com/CHANGE_ME",
+)
 
 DEFAULT_ALLOWED_HOSTS = [
     "localhost",
@@ -101,6 +106,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "website.context_processors.whatsapp_group_url",
             ],
         },
     },
@@ -182,9 +188,7 @@ STORAGES = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": (
-            "whitenoise.storage.CompressedManifestStaticFilesStorage"
-        ),
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
 MEDIA_URL = "/media/"

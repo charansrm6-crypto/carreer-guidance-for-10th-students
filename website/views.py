@@ -108,6 +108,15 @@ def dashboard(request):
     return render(request, "dashboard.html", {"student": request.user})
 
 
+def _filter_by_search(queryset, search_term, *fields):
+    if not search_term:
+        return queryset
+    query = Q()
+    for field in fields:
+        query |= Q(**{f"{field}__icontains": search_term})
+    return queryset.filter(query)
+
+
 def roadmap_list(request):
     query, error = _validated_filter(request, "q")
     if error:
@@ -117,8 +126,7 @@ def roadmap_list(request):
     if error:
         return error
     roadmaps = Roadmap.objects.all()
-    if query:
-        roadmaps = roadmaps.filter(Q(name__icontains=query) | Q(description__icontains=query))
+    roadmaps = _filter_by_search(roadmaps, query, "name", "description", "subjects", "courses")
     if pathway:
         roadmaps = roadmaps.filter(name=pathway)
     return render(
@@ -142,13 +150,7 @@ def career_list(request):
     if error:
         return error
     careers = Career.objects.all()
-    if query:
-        careers = careers.filter(
-            Q(name__icontains=query)
-            | Q(description__icontains=query)
-            | Q(skills__icontains=query)
-            | Q(education_required__icontains=query)
-        )
+    careers = _filter_by_search(careers, query, "name", "description", "skills", "education_required", "jobs")
     if career_name:
         careers = careers.filter(name=career_name)
     return render(
@@ -172,13 +174,7 @@ def course_list(request):
     if error:
         return error
     courses = Course.objects.all()
-    if query:
-        courses = courses.filter(
-            Q(name__icontains=query)
-            | Q(description__icontains=query)
-            | Q(stream__icontains=query)
-            | Q(eligibility__icontains=query)
-        )
+    courses = _filter_by_search(courses, query, "name", "description", "stream", "eligibility", "career_opportunities")
     if stream:
         courses = courses.filter(stream=stream)
     return render(
@@ -202,13 +198,7 @@ def scholarship_list(request):
     if error:
         return error
     scholarships = Scholarship.objects.all()
-    if query:
-        scholarships = scholarships.filter(
-            Q(name__icontains=query)
-            | Q(category__icontains=query)
-            | Q(eligibility__icontains=query)
-            | Q(education_level__icontains=query)
-        )
+    scholarships = _filter_by_search(scholarships, query, "name", "category", "eligibility", "education_level", "benefits")
     if category:
         scholarships = scholarships.filter(category=category)
     return render(
@@ -237,13 +227,7 @@ def exam_list(request):
     if error:
         return error
     exams = EntranceExam.objects.all()
-    if query:
-        exams = exams.filter(
-            Q(name__icontains=query)
-            | Q(full_form__icontains=query)
-            | Q(purpose__icontains=query)
-            | Q(courses__icontains=query)
-        )
+    exams = _filter_by_search(exams, query, "name", "full_form", "purpose", "courses", "conducting_authority")
     if authority:
         exams = exams.filter(conducting_authority=authority)
     return render(
