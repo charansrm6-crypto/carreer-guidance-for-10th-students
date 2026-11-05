@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ scholarship.name }} | CareerPath{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{{ scholarship.name }}</h1>
+    </div>
+</section>
+
+<div class="container detail-layout">
+    <div class="detail-box">
+        <ul class="meta-list">
+            <li><strong>Eligibility:</strong> {{ scholarship.eligibility }}</li>
+            <li><strong>Education Level:</strong> {{ scholarship.education_level }}</li>
+            <li><strong>Category:</strong> {{ scholarship.category }}</li>
+            <li><strong>Income Requirement:</strong> {{ scholarship.income_requirement|default:'Not specified' }}</li>
+            <li><strong>Benefits:</strong> {{ scholarship.benefits }}</li>
+            <li><strong>Application Process:</strong> {{ scholarship.application_process }}</li>
+            <li><strong>Official Website:</strong> {% if scholarship.official_website %}<a href="{{ scholarship.official_website }}" target="_blank" rel="noopener noreferrer">Open</a>{% else %}Not provided{% endif %}</li>
+            <li><strong>State/Central:</strong> {{ scholarship.state_or_central }}</li>
+            <li><strong>Notes:</strong> {{ scholarship.notes|default:'General educational guidance only.' }}</li>
+        </ul>
+        <p>Scholarship eligibility, deadlines, benefits, and application processes may change. Confirm current information through the official scheme website or department before applying.</p>
+    </div>
+    <aside class="detail-box">
+        <h3>Explore</h3>
+        <ul class="card-list">
+            <li><a href="{% url 'scholarship_list' %}">All scholarships</a></li>
+            <li><a href="{% url 'course_list' %}">Courses</a></li>
+            <li><a href="{% url 'exam_list' %}">Entrance exams</a></li>
+        </ul>
+    </aside>
+</div>
+{% endblock %}

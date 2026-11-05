@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Team | CareerPath{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Meet the CareerPath Team</h1>
+    </div>
+</section>
+
+<div class="container section">
+    <div class="team-grid">
+        {% for member in members %}
+        <div class="team-card">
+            {% if member.photo %}
+                <img src="{{ member.photo.url }}" alt="{{ member.name }}">
+            {% else %}
+                <div style="height:220px; background: linear-gradient(135deg, #dfeefe, #edf7ff); display:flex; align-items:center; justify-content:center; font-weight:700; color:#1a3b7f;">{{ member.name|slice:':1' }}</div>
+            {% endif %}
+            <div class="content">
+                <h4>{{ member.name }}</h4>
+                <p><strong>{{ member.role }}</strong></p>
+                <p>{{ member.description }}</p>
+                {% if member.contact %}<p><small>{{ member.contact }}</small></p>{% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <p>No team members available.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

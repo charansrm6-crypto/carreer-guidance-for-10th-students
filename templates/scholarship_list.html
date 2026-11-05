@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Scholarships | CareerPath{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Scholarships</h1>
+        <form method="get" class="search-bar">
+            <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Search scholarships or categories">
+            <select name="category" aria-label="Filter by scholarship category">
+                <option value="">All categories</option>
+                {% for category in categories %}
+                <option value="{{ category }}"{% if category == selected_category %} selected{% endif %}>{{ category }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+    </div>
+</section>
+
+<div class="container section">
+    <div class="grid-3">
+        {% for scholarship in scholarships %}
+        <div class="card">
+            <h3>{{ scholarship.name }}</h3>
+            <p>{{ scholarship.eligibility|truncatewords:18 }}</p>
+            <p><strong>Category:</strong> {{ scholarship.category }}</p>
+            <p style="margin-top: 16px;"><a href="{% url 'scholarship_detail' scholarship.slug %}" class="btn btn-primary">Details</a></p>
+        </div>
+        {% empty %}
+        <p>No scholarships match your search.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

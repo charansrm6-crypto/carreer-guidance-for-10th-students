@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Messages | CareerPath{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Contact Messages</h1>
+    </div>
+</section>
+
+<div class="container section">
+    {% if messages %}
+        {% for item in messages %}
+        <div class="card" style="margin-bottom: 18px;">
+            <h3>{{ item.name }}</h3>
+            <p><strong>Email:</strong> {{ item.email }}</p>
+            <p><strong>Subject:</strong> {{ item.subject }}</p>
+            <p>{{ item.message }}</p>
+            <small>{{ item.created_at }}</small>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No messages yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}After 10th Roadmap | CareerPath{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>After 10th Roadmap</h1>
+        <p>Class 10 → Choose an education pathway → Higher education or training → Career opportunities → Employment or further studies.</p>
+        <form method="get" class="search-bar">
+            <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Search roadmaps or streams...">
+            <select name="pathway" aria-label="Filter by pathway">
+                <option value="">All pathways</option>
+                {% for pathway in pathways %}
+                <option value="{{ pathway }}"{% if pathway == selected_pathway %} selected{% endif %}>{{ pathway }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+    </div>
+</section>
+
+<div class="container section">
+    <div class="grid-3">
+        {% for roadmap in roadmaps %}
+        <div class="card">
+            <h3>{{ roadmap.name }}</h3>
+            <p>{{ roadmap.description|truncatewords:22 }}</p>
+            <p><strong>Eligibility:</strong> {{ roadmap.eligibility|truncatewords:20 }}</p>
+            <p style="margin-top: 16px;"><a href="{% url 'roadmap_detail' roadmap.slug %}" class="btn btn-primary">View Details</a></p>
+        </div>
+        {% empty %}
+        <p>No roadmaps match your search.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
